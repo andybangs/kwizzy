@@ -1,8 +1,23 @@
-/*body {
-  padding: 50px;
+body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
-}*/
+#kwizzy {
+  color: black;
+  font-weight: bold;
+}
+
+/* Prevent FOUC */
+.no-js .top-bar {
+  display: none;
+}
+
+@media screen and (min-width: 40em) {
+  .no-js .top-bar {
+    display: block;
+  }
+
+  .no-js .title-bar {
+    display: none;
+  }
+}

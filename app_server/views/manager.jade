@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  include _includes/logged-in-nav.jade
+  
+  .row
+    .small-12.text-center.columns
+      h3= pageHeader
+  .row
+    .medium-10.small-centered.columns
+      table
+        thead
+          tr
+            each tableHeader in tableHeaders
+              th= tableHeader
+        tbody
+          each game in games
+            tr
+              td 
+                a(href='/player/#{game.url}')= game.title
+              td= game.created
+              td
+                a.small.button(href='/manager/#{game.url}', type='button') Edit
+  .row
+    .small-12.small-centered.text-center.columns
+      a.small.button(href='/manager/new', type='button') New Game

@@ -1,0 +1,17 @@
+.title-bar(data-responsive-toggle='logged-in-nav', data-hide-for='medium')
+  button.menu-icon(type='button', data-toggle)
+  .title-bar-title kwizzy
+
+#logged-in-nav.top-bar
+  .top-bar-left.menu-centered
+    ul.menu
+      li.show-for-medium 
+        a.menu-text(href='/') kwizzy
+      li 
+        a(href='/') Browse
+      li 
+        a(href='/manager') Manage
+  .top-bar-right.menu-centered
+    ul.menu
+      li
+        a(href='/') Logout

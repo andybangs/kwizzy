@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./app_server/routes/index');
-var users = require('./app_server/routes/users');
+var manager = require('./app_server/routes/manager');
 
 var app = express();
 
@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/manager', manager);
 
 app.use('/foundation-sites', express.static(__dirname + '/node_modules/foundation-sites/'))
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/'))
