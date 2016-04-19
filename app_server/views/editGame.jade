@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  include _includes/logged-in-nav.jade
+  
+  .row
+    .small-12.text-center.columns
+      h3= title
+  .row
+    .medium-10.small-centered.columns
+      ul.menu
+        li
+          a(href='/manager/#{url}/game') Game
+        li
+          a(href='/manager/#{url}/data') Data
+      br
+      form
+        .row
+          .medium-4.columns
+            label Title
+              input#title(type='text', value='#{title}')
+        .row
+          .medium-8.columns
+            label Description
+              input#description(type='text', value='#{description}')
+        .row
+          .medium-8.columns
+            label(for='alphabetical') Sort answers alphabetically 
+              if alphabetical
+                input#alphabetical(type='checkbox', checked)
+              else
+                input#alphabetical(type='checkbox')
+        .row
+          .medium-8.columns
+            label(for='suddenDeath') Sudden Death: One wrong answer ends the game 
+              if suddenDeath
+                input#suddenDeath(type='checkbox', checked)
+              else
+                input#suddenDeath(type='checkbox')
+        .row
+          .medium-8.columns
+            label(for='studyMode') Study Mode: Reveal correct answers after game is over 
+              if studyMode
+                input#studyMode(type='checkbox', checked)
+              else
+                input#studyMode(type='checkbox')
+
+  .row
+    .small-12.text-center.columns
+      a.small.button(href='/manager', type='button') Save

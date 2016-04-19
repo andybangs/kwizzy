@@ -1,0 +1,45 @@
+extends layout
+
+mixin qInput(qsArr)
+  -
+    inputVal = ''
+    for (var i = 0; i < qsArr.length; i++)
+      inputVal += qsArr[i] + '/'
+      
+  input(type='text', value='#{inputVal}')
+
+block content
+  include _includes/logged-in-nav.jade
+  
+  .row
+    .small-12.text-center.columns
+      h3= title
+  .row
+    .medium-10.small-centered.columns
+      ul.menu
+        li
+          a(href='/manager/#{url}/game') Game
+        li
+          a(href='/manager/#{url}/data') Data
+      br
+  .row
+    .medium-10.small-centered.columns
+      table
+        thead
+          tr
+            th Separate each answer with a "/"
+            th 
+        tbody
+          each question in data
+            tr
+              td.small-11
+                +qInput(question)
+              td.small-1
+                a.small.button(href='/manager', type='button') X
+
+  .row
+    .small-6.text-center.columns
+      a.small.button(href='/manager', type='button') +
+
+    .small-6.text-center.columns
+      a.small.button(href='/manager', type='button') Save
