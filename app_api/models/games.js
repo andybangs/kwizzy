@@ -10,7 +10,7 @@ var gameSchema = new mongoose.Schema({
   suddenDeath: {type: Boolean, "default": false},
   studyMode: {type: Boolean, "default": true},
   timerSeconds: {type: Number, "default": 120, min: 0},
-  data: [[String]]
+  data: [String]
 });
 
 mongoose.model('Game', gameSchema);
