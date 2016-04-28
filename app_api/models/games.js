@@ -4,7 +4,6 @@ var gameSchema = new mongoose.Schema({
   title: {type: String, required: true},
   description: String,
   user: String,
-  url: String,
   created: Date,
   alphabetical: {type: Boolean, "default": false},
   suddenDeath: {type: Boolean, "default": false},

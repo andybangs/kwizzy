@@ -10,41 +10,48 @@ block content
     .medium-10.small-centered.columns
       ul.menu
         li
-          a(href='/manager/#{url}/game') Game
+          if _id
+            a(href='/manager/#{_id}/game') Game
+          else
+            a(href='/manager/new/game') Game
         li
-          a(href='/manager/#{url}/data') Data
+          if _id
+            a(href='/manager/#{_id}/data') Data
+          else
+            a(href='/manager/new/data') Data
       br
-      form
+      form(action='', method='post', role='form')
         .row
           .medium-4.columns
             label Title
-              input#title(type='text', value='#{title}')
+              input#title(type='text', value='#{title}', name='title')
         .row
           .medium-8.columns
             label Description
-              input#description(type='text', value='#{description}')
+              input#description(type='text', value='#{description}', name='description')
         .row
           .medium-8.columns
             label(for='alphabetical') Sort answers alphabetically 
               if alphabetical
-                input#alphabetical(type='checkbox', checked)
+                input#alphabetical(type='checkbox', name='alphabetical', checked)
               else
-                input#alphabetical(type='checkbox')
+                input#alphabetical(type='checkbox', name='alphabetical')
         .row
           .medium-8.columns
             label(for='suddenDeath') Sudden Death: One wrong answer ends the game 
               if suddenDeath
-                input#suddenDeath(type='checkbox', checked)
+                input#suddenDeath(type='checkbox', name='suddenDeath', checked)
               else
-                input#suddenDeath(type='checkbox')
+                input#suddenDeath(type='checkbox', name='suddenDeath')
         .row
           .medium-8.columns
             label(for='studyMode') Study Mode: Reveal correct answers after game is over 
               if studyMode
-                input#studyMode(type='checkbox', checked)
+                input#studyMode(type='checkbox', name='studyMode', checked)
               else
-                input#studyMode(type='checkbox')
-
-  .row
-    .small-12.text-center.columns
-      a.small.button(href='/manager', type='button') Save
+                input#studyMode(type='checkbox', name='studyMode')
+        .row
+          .medium-8.columns
+            button.button Save 
+            if _id              
+              button#deletebtn.button.alert Delete

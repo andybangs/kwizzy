@@ -1,64 +1,23 @@
-module.exports.manager = function manager(req, res, next) {
-  res.render('manager', {
-    pageHeader: 'Game Manager',
-    tableHeaders: ['Game', 'Created', ' '],
-    games: [
-      {
-        title: 'Literary Novels',
-        description: 'Match the title to the author',
-        user: 'andybangs',
-        url: 'literary-novels',
-        created: 'Apr. 12, 2016',
-        alphabetical: false,
-        suddenDeath: false,
-        studyMode: true,
-        timerSeconds: 150,
-        data: [
-          ['Pride and Prejudice', 'Jane Austen'],
-          ['1984', 'George Orwell'],
-          ['The Great Gatsby', 'F. Scott Fitzgerald'],
-          ['Jane Eyre', 'Charlotte Brontë'],
-          ['Crime and Punishment', 'Fyodor Dostoyevsky'],
-          ['Wuthering Heights', 'Emily Brontë'],
-          ['Lolita', 'Vladimir Nabokov'],
-          ['The Adventures of Huckleberry Finn', 'Mark Twain'],
-          ['Of Mice and Men', 'John Steinbeck'],
-          ['The Count of Monte Cristo', 'Alexandre Dumas'],
-          ['Brave New World', 'Aldous Huxley'],
-          ['One Hundred Years of Solitude', 'Gabriel Garcí­a Márquez']
-        ]
-      },
-      {
-        title: 'TV Characters',
-        description: 'Match characters featured in the same show',
-        url: 'tv-characters',
-        user: 'andybangs',
-        created: 'Mar. 14, 2016',
-        alphabetical: false,
-        suddenDeath: true,
-        studyMode: false,
-        timerSeconds: 240,
-        data: [
-          ['Daenerys Targaryen', 'Jon Snow', 'Tyrion Lannister'],
-          ['Rory Gilmore', 'Lane Kim', 'Paris Geller'],
-          ['Don Draper', 'Peggy Olson', 'Roger Sterling'],
-          ['Rick Grimes', 'Daryl Dixon', 'Maggie Greene'],
-          ['Kara Thrace', 'Gaius Baltar', 'Laura Roslin'],
-          ['Jack Shephard', 'Kate Austen', 'Ben Linus'],
-          ['Michael Bluth', 'Tobias Fünke', 'Steve Holt']
-        ]
-      }
-    ]
-  });
+var request = require('request');
+var apiOptions = {server : 'http://localhost:3000'};
+
+if (process.env.NODE_ENV === 'production') {
+  apiOptions.server = 'https://fathomless-brook-32755.herokuapp.com/';
 }
 
-module.exports.newGame = function newGame(req, res, next) {
-  res.render('editGame', {
+function renderEditGame(req, res, responseBody) {
+  res.render('editGame', responseBody);
+}
+
+function renderEditData(req, res, responseBody) {
+  res.render('editData', responseBody);
+}
+
+module.exports.newGame = function newGame(req, res) {
+  renderEditGame(req, res, {
     title: '',
     description: '',
     user: 'andybangs',
-    url: 'new',
-    created: '',
     alphabetical: false,
     suddenDeath: false,
     studyMode: false,
@@ -69,58 +28,109 @@ module.exports.newGame = function newGame(req, res, next) {
   });
 }
 
-module.exports.editGame = function editGame(req, res, next) {
-  res.render('editGame', {
-    title: 'Literary Novels',
-    description: 'Match the title to the author',
+module.exports.doAddGame = function doAddGame(req, res) {
+  var path = '/api/games';
+
+  var postdata = {
+    title: req.body.title,
+    description: req.body.description,
+    alphabetical: req.body.alphabetical ? true : false,
+    suddenDeath: req.body.suddenDeath ? true : false,
+    studyMode: req.body.studyMode ? true : false,
+  };
+
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'POST',
+    json: postdata
+  };
+
+  if (!postdata.title) {
+    res.redirect('/manager/new/game');
+  } else {
+    request(
+      requestOptions,
+      function(err, response, body) {
+        if (response.statusCode === 201) {
+          res.redirect('/');
+        } else {
+          console.log(body);
+        }
+      }
+    );
+  }
+}
+
+module.exports.newData = function newData(req, res) {
+  renderEditData(req, res, {
+    title: '',
+    description: '',
     user: 'andybangs',
-    url: 'literary-novels',
-    created: 'Apr. 12, 2016',
     alphabetical: false,
     suddenDeath: false,
-    studyMode: true,
-    timerSeconds: 150,
+    studyMode: false,
+    timerSeconds: 300,
     data: [
-      ['Pride and Prejudice', 'Jane Austen'],
-      ['1984', 'George Orwell'],
-      ['The Great Gatsby', 'F. Scott Fitzgerald'],
-      ['Jane Eyre', 'Charlotte Brontë'],
-      ['Crime and Punishment', 'Fyodor Dostoyevsky'],
-      ['Wuthering Heights', 'Emily Brontë'],
-      ['Lolita', 'Vladimir Nabokov'],
-      ['The Adventures of Huckleberry Finn', 'Mark Twain'],
-      ['Of Mice and Men', 'John Steinbeck'],
-      ['The Count of Monte Cristo', 'Alexandre Dumas'],
-      ['Brave New World', 'Aldous Huxley'],
-      ['One Hundred Years of Solitude', 'Gabriel Garcí­a Márquez']
+      []
     ]
   });
 }
 
-module.exports.editData = function editGame(req, res, next) {
-  res.render('editData', {
-    title: 'Literary Novels',
-    description: 'Match the title to the author',
-    user: 'andybangs',
-    url: 'literary-novels',
-    created: 'Apr. 12, 2016',
-    alphabetical: false,
-    suddenDeath: false,
-    studyMode: true,
-    timerSeconds: 150,
-    data: [
-      ['Pride and Prejudice', 'Jane Austen'],
-      ['1984', 'George Orwell'],
-      ['The Great Gatsby', 'F. Scott Fitzgerald'],
-      ['Jane Eyre', 'Charlotte Brontë'],
-      ['Crime and Punishment', 'Fyodor Dostoyevsky'],
-      ['Wuthering Heights', 'Emily Brontë'],
-      ['Lolita', 'Vladimir Nabokov'],
-      ['The Adventures of Huckleberry Finn', 'Mark Twain'],
-      ['Of Mice and Men', 'John Steinbeck'],
-      ['The Count of Monte Cristo', 'Alexandre Dumas'],
-      ['Brave New World', 'Aldous Huxley'],
-      ['One Hundred Years of Solitude', 'Gabriel Garcí­a Márquez']
-    ]
+module.exports.editGame = function editGame(req, res) {
+  var path = '/api/games/' + req.params.gameid;
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'GET',
+    json: {}
+  };
+
+  request(requestOptions, function(err, response, body) {
+    renderEditGame(req, res, body);
   });
 }
+
+module.exports.editData = function editGame(req, res) {
+  var path = '/api/games/' + req.params.gameid;
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'GET',
+    json: {}
+  };
+
+  request(requestOptions, function(err, response, body) {
+    renderEditData(req, res, body);
+  });
+}
+
+module.exports.doEditGame = function(req, res){
+  var path = '/api/games/' + req.params.gameid;
+
+  var postdata = {
+    title: req.body.title,
+    description: req.body.description,
+    alphabetical: req.body.alphabetical ? true : false,
+    suddenDeath: req.body.suddenDeath ? true : false,
+    studyMode: req.body.studyMode ? true : false
+  };
+
+  var requestOptions = {
+    url: apiOptions.server + path,
+    method: 'POST',
+    json: postdata
+  };
+
+  if (!postdata.title) {
+    res.redirect('/manager/' + req.params.gameid + '/game');
+  } else {
+    request(
+      requestOptions,
+      function(err, response, body) {
+        if (response.statusCode === 200) {
+          res.redirect('/');
+        } else {
+          console.log(response.statusCode);
+        }
+      }
+    );
+  }
+};

@@ -32,8 +32,11 @@ module.exports.gamesCreate = function(req, res) {
     title: req.body.title,
     description: req.body.description,
     user: req.body.user,
+    alphabetical: req.body.alphabetical,
+    suddenDeath: req.body.suddenDeath,
+    studyMode: req.body.studyMode,
     created: Date.now(),
-    data: buildData(req.body.data)
+    data: req.body.data ? buildData(req.body.data) : []
   }, function(err, game) {
     if (err) {
       console.log(err);
@@ -76,7 +79,7 @@ module.exports.gamesUpdateOne = function(req, res) {
   }
   Game
     .findById(req.params.gameid)
-    .select('-user')
+    .select('-user -data')
     .exec(
       function(err, game) {
         if (!game) {
@@ -90,7 +93,11 @@ module.exports.gamesUpdateOne = function(req, res) {
         }
         game.title = req.body.title;
         game.description = req.body.description;
-        game.data = buildData(req.body.data);
+        game.alphabetical = req.body.alphabetical;
+        game.suddenDeath = req.body.suddenDeath;
+        game.studyMode = req.body.studyMode;
+        // game.data = buildData(req.body.data);
+
         game.save(function(err, game) {
           if (err) {
             sendJSONresponse(res, 404, err);

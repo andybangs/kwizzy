@@ -12,6 +12,7 @@ block content
       h3= pageHeader
   .row
     .medium-10.small-centered.columns
+      h6= message
       table
         thead
           tr
@@ -23,4 +24,4 @@ block content
               td 
                 a(href='/player/#{game.url}')= game.title
               td= game.user
-              td= game.created
+              td= new Date(game.created).toDateString()

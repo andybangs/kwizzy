@@ -1,13 +1,5 @@
 extends layout
 
-mixin qInput(qsArr)
-  -
-    inputVal = ''
-    for (var i = 0; i < qsArr.length; i++)
-      inputVal += qsArr[i] + '/'
-      
-  input(type='text', value='#{inputVal}')
-
 block content
   include _includes/logged-in-nav.jade
   
@@ -18,9 +10,15 @@ block content
     .medium-10.small-centered.columns
       ul.menu
         li
-          a(href='/manager/#{url}/game') Game
+          if _id
+            a(href='/manager/#{_id}/game') Game
+          else
+            a(href='/manager/new/game') Game
         li
-          a(href='/manager/#{url}/data') Data
+          if _id
+            a(href='/manager/#{_id}/data') Data
+          else
+            a(href='/manager/new/data') Data
       br
   .row
     .medium-10.small-centered.columns
@@ -33,7 +31,7 @@ block content
           each question in data
             tr
               td.small-11
-                +qInput(question)
+                input(type='text', value='#{question}')
               td.small-1
                 a.small.button(href='/manager', type='button') X
 

@@ -8,6 +8,7 @@ block content
       h3= pageHeader
   .row
     .medium-10.small-centered.columns
+      h6= message
       table
         thead
           tr
@@ -17,10 +18,10 @@ block content
           each game in games
             tr
               td 
-                a(href='/player/#{game.url}')= game.title
-              td= game.created
+                a(href='/player/#{game._id}')= game.title
+              td= new Date(game.created).toDateString()
               td
-                a.small.button(href='/manager/#{game.url}/game', type='button') Edit
+                a.small.button(href='/manager/#{game._id}/game', type='button') Edit
   .row
     .small-12.small-centered.text-center.columns
-      a.small.button(href='/manager/new', type='button') New Game
+      a.small.button(href='/manager/new/game', type='button') New Game
